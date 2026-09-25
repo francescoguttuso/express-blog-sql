@@ -17,6 +17,14 @@ app.delete("/posts/:id", async (req, res) => {
   res.sendStatus(204);
 });
 
+app.get("/posts/:id", async (req, res) => {
+  const [results] = await connection.query("SELECT * FROM posts WHERE id = ?", [
+    req.params.id,
+  ]);
+
+  res.json(results);
+});
+
 app.listen(3000, () => {
   console.log("Server avviato sulla porta 3000");
 });
