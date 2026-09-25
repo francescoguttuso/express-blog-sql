@@ -25,6 +25,26 @@ app.get("/posts/:id", async (req, res) => {
   res.json(results);
 });
 
+app.get("/posts/:id", async (req, res) => {
+  const [results] = await connection.query(
+    `
+    SELECT
+      posts.id,
+      posts.title,
+      tags.label
+    FROM posts
+    JOIN post_tag
+      ON posts.id = post_tag.post_id
+    JOIN tags
+      ON post_tag.tag_id = tags.id
+    WHERE posts.id = ?
+  `,
+    [req.params.id],
+  );
+
+  res.json(results);
+});
+
 app.listen(3000, () => {
   console.log("Server avviato sulla porta 3000");
 });
