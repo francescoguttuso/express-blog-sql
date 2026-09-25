@@ -9,6 +9,14 @@ app.get("/posts", async (req, res) => {
   res.json(results);
 });
 
+app.delete("/posts/:id", async (req, res) => {
+  const [results] = await connection.query("DELETE FROM posts WHERE id = ?", [
+    req.params.id,
+  ]);
+
+  res.sendStatus(204);
+});
+
 app.listen(3000, () => {
   console.log("Server avviato sulla porta 3000");
 });
